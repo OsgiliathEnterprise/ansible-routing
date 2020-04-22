@@ -1,6 +1,0 @@
----
-roles:
-  # Install a role from Ansible Galaxy.
-  - name: oasis_roles.firewalld
-    source: https://galaxy.ansible.com
-    path: ../community
