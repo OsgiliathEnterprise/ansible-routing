@@ -34,9 +34,9 @@
 - name: ansible-routing | zone | configure firewalld masquerade
   become: "{{ firewalld_become }}"
   firewalld:
-    masquerade: yes
+    masquerade: true
     state: enabled
-    permanent: yes
+    permanent: true
     zone: "{{ zone.name | default('public') }}"
   notify: ansible-routing | handler | reload-firewall
   when: not masqueradeactive.rc == 0
