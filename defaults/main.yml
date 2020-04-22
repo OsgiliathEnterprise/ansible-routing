@@ -1,2 +1,3 @@
 ---
-# defaults file for ansible-routing
+# Whether this module should use the "become" option for configuring firewalld
+firewalld_become: true
