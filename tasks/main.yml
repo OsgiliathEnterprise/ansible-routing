@@ -1,0 +1,20 @@
+---
+# tasks file for ansible-routing
+
+- name: ansible-routing | test firewalld masquerade
+  command: "firewall-cmd --zone={{ firewalld_zone }} --query-masquerade"
+  become: true
+  register: masqueradeactive
+  failed_when: false
+  changed_when: false
+
+- name: ansible-routing | debug masquerade command
+  debug:
+    var: masqueradeactive
+
+- name: ansible-routing | configure firewalld masquerade
+  become: true
+  command: "firewall-cmd --zone={{ firewalld_zone }} --add-masquerade --permanent"
+  notify: ansible-routing | reload-firewall
+  when: not masqueradeactive.rc == 0
+
