@@ -17,6 +17,7 @@ def test_redirect_rule_set(host):
 
 
 def test_port_is_opened(host):
-    command = """sudo firewall-cmd --zone=public --query-port=\"6752/tcp\" | grep -c yes"""
+    command = """sudo firewall-cmd --zone=public --query-port=\"6752/tcp\" \
+    | grep -c yes"""
     cmd = host.run(command)
     assert '1' in cmd.stdout
