@@ -20,17 +20,6 @@
   loop_control:
     loop_var: nic
 
-- name: ansible-routing | zone | test firewalld masquerade
-  command: "firewall-cmd --zone={{ zone.name }} --query-masquerade"
-  become: "{{ firewalld_become }}"
-  register: masqueradeactive
-  failed_when: false
-  changed_when: false
-
-- name: ansible-routing | zone | debug masquerade command
-  debug:
-    var: masqueradeactive
-
 - name: ansible-routing | zone | configure firewalld masquerade
   become: "{{ firewalld_become }}"
   firewalld:
@@ -39,7 +28,6 @@
     permanent: true
     zone: "{{ zone.name | default('public') }}"
   notify: ansible-routing | handler | reload-firewall
-  when: not masqueradeactive.rc == 0
 
 - name: ansible-routing | zone | configure forwarding
   include: port-forwarding.yml
