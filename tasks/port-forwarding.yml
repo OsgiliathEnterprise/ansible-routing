@@ -14,9 +14,9 @@
   firewalld:
     rich_rule: >
       rule family={{ forward_rule.family | default('ipv4') }}
-      forward-port port={{ forward_rule.from_port }}
+      forward-port port={{ forward_rule.from_port | int }}
       protocol={{ forward_rule.protocol | default('tcp') }}
-      to-port={{ forward_rule.to_port }}
+      to-port={{ forward_rule.to_port | int }}
     zone: "{{ zone.name | default('public') }}"
     permanent: yes
     immediate: yes
@@ -28,9 +28,9 @@
   firewalld:
     rich_rule: >
       rule family={{ forward_rule.family | default('ipv4') }}
-      forward-port port={{ forward_rule.from_port }}
+      forward-port port={{ forward_rule.from_port | int }}
       protocol={{ forward_rule.protocol | default('tcp') }}
-      to-port={{ forward_rule.to_port }}
+      to-port={{ forward_rule.to_port | int }}
       to-addr={{ forward_rule.to_address }}
     zone: "{{ zone.name | default('public') }}"
     permanent: yes
