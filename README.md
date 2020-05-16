@@ -29,7 +29,9 @@ firewalld_zones:
         protocol: tcp # optional
         to_address: 192.168.1.10
         to_port: 22
-
+    enabled_services:
+      - service: ssh
+    
 ```
 
 License

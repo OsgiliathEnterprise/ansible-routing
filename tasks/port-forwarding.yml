@@ -4,7 +4,8 @@
   firewalld:
     port: "{{ forward_rule.from_port }}/{{ forward_rule.protocol | default('tcp') }}"
     zone: "{{ zone.name | default('public') }}"
-    permanent: yes
+    permanent: true
+    immediate: true
     state: enabled
   become: "{{ firewalld_become }}"
 
