@@ -14,11 +14,11 @@
     zone: "{{ zone.name | default('public') }}"
     permanent: true
     immediate: true
-    interface: "{{ nic }}"
+    interface: "{{ unaffectednic }}"
     state: enabled
   loop: "{{ zone.nics | default('eth0') }}"
   loop_control:
-    loop_var: nic
+    loop_var: unaffectednic
 
 - name: ansible-routing | zone | enable services
   become: "{{ firewalld_become }}"
