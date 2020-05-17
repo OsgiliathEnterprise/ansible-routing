@@ -1,0 +1,27 @@
+---
+
+- name: ansible-routing | services-ports | enable services
+  become: "{{ firewalld_become }}"
+  firewalld:
+    zone: "{{ zone.name | default('public') }}"
+    permanent: true
+    immediate: true
+    service: "{{ enabled_service.service }}"
+    state: enabled
+  loop: "{{ zone.enabled_services | default([]) }}"
+  loop_control:
+    loop_var: enabled_service
+  notify: ansible-routing | handler | reload-firewall
+
+- name: ansible-routing | services-ports | open port
+  firewalld:
+    port: "{{ enabled_port.port }}/{{ enabled_port.protocol | default('tcp') }}"
+    zone: "{{ zone.name | default('public') }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  become: "{{ firewalld_become }}"
+  loop: "{{ zone.enabled_ports | default([]) }}"
+  loop_control:
+    loop_var: enabled_port
+  notify: ansible-routing | handler | reload-firewall

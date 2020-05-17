@@ -20,19 +20,6 @@
   loop_control:
     loop_var: unaffectednic
 
-- name: ansible-routing | zone | enable services
-  become: "{{ firewalld_become }}"
-  firewalld:
-    zone: "{{ zone.name | default('public') }}"
-    permanent: true
-    immediate: true
-    service: "{{ enabled_service.service }}"
-    state: enabled
-  loop: "{{ zone.enabled_services | default([]) }}"
-  loop_control:
-    loop_var: enabled_service
-  notify: ansible-routing | handler | reload-firewall
-
 - name: ansible-routing | zone | configure firewalld masquerade
   become: "{{ firewalld_become }}"
   firewalld:
@@ -49,3 +36,6 @@
     label: "{{ forward_rule.port_forward_rule }}"
     loop_var: forward_rule
   notify: ansible-routing | handler | reload-firewall
+
+- name: ansible-routing | zone | configure ports and services
+  include: services-ports.yml

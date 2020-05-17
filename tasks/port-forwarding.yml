@@ -1,14 +1,5 @@
 ---
 
-- name: ansible-routing | forwarding | open port
-  firewalld:
-    port: "{{ forward_rule.from_port }}/{{ forward_rule.protocol | default('tcp') }}"
-    zone: "{{ zone.name | default('public') }}"
-    permanent: true
-    immediate: true
-    state: enabled
-  become: "{{ firewalld_become }}"
-
 - name: ansible-routing | forwarding | Redirect port
   become: "{{ firewalld_become }}"
   firewalld:

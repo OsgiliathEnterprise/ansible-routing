@@ -31,7 +31,10 @@ firewalld_zones:
         to_port: 22
     enabled_services:
       - service: ssh
-    
+    enabled_ports:
+      - port: 6753
+        protocol: tcp 
+   
 ```
 
 License
