@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    firewalld_zones:
+      - name: public
+        nics:
+          - eth0
+
+  tasks:
+    - name: "Include ansible-routing"
+      include_role:
+        name: "ansible-routing"

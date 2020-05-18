@@ -31,7 +31,7 @@
 
 - name: ansible-routing | zone | configure forwarding
   include: port-forwarding.yml
-  loop: "{{ zone.port_forward_rules }}"
+  loop: "{{ zone.port_forward_rules | default([]) }}"
   loop_control:
     label: "{{ forward_rule.port_forward_rule }}"
     loop_var: forward_rule

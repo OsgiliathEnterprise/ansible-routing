@@ -24,4 +24,7 @@ before_install:
     sudo pip3 install ansible ansible-lint
     sudo pip3 install -I molecule molecule-vagrant
 
-script: sudo molecule test --scenario-name kvm
+script:
+  - |
+    sudo molecule test --scenario-name kvm
+    sudo molecule test --scenario-name nopropkvm
