@@ -19,7 +19,7 @@ Role Variables
 ```
 firewalld_zones:
   - name: public # optional
-    nics:
+    nics: # optional, will take all the network interfaces of the machine by default
       - eth0 # optional
     masquerade: true
     port_forward_rules:
@@ -39,7 +39,6 @@ firewalld_zones:
 
 License
 -------
-
 
 [Apache-2](https://www.apache.org/licenses/LICENSE-2.0)
 
