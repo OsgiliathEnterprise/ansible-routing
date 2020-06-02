@@ -4,9 +4,9 @@
   vars:
     firewalld_zones:
       - name: public
-        nics:
-          - eth0
-        masquerade: true
+#        nics:
+#          - eth0
+#        masquerade: true
         port_forward_rules:
           - port_forward_rule: ssh-to-guest
             family: ipv4
