@@ -39,5 +39,5 @@ install:
   - sudo chmod o+rwx /var/run/libvirt/libvirt-sock
 
 script:
-  - sudo molecule test --scenario-name kvm
-  - sudo molecule test --scenario-name nopropkvm
+  - molecule test --scenario-name kvm
+  - molecule test --scenario-name nopropkvm
