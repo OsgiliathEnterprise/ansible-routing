@@ -10,6 +10,13 @@
     verbosity: 3
   when: not zone.nics is defined
 
+- name: ansible-routing | zone | create zones - without permanent
+  become: "{{ firewalld_become }}"
+  firewalld:
+    zone: "{{ zone.name | default('public') }}"
+    immediate: true
+    state: enabled
+
 - name: ansible-routing | zone | create zones
   become: "{{ firewalld_become }}"
   firewalld:
