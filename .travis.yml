@@ -41,3 +41,6 @@ install:
 script:
   - molecule test --scenario-name kvm
   - molecule test --scenario-name nopropkvm
+branches:
+  only:
+    - master
