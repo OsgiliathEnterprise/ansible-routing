@@ -2,7 +2,7 @@
 
 - name: ansible-routing | forwarding | Redirect port
   become: "{{ firewalld_become }}"
-  firewalld:
+  ansible.posix.firewalld:
     rich_rule: >
       rule family={{ forward_rule.family | default('ipv4') }}
       forward-port port={{ forward_rule.from_port | int }}
@@ -16,7 +16,7 @@
 
 - name: ansible-routing | forwarding | Redirect ip
   become: "{{ firewalld_become }}"
-  firewalld:
+  ansible.posix.firewalld:
     rich_rule: >
       rule family={{ forward_rule.family | default('ipv4') }}
       forward-port port={{ forward_rule.from_port | int }}

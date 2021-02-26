@@ -12,14 +12,14 @@
 
 - name: ansible-routing | zone | create zones - without permanent
   become: "{{ firewalld_become }}"
-  firewalld:
+  ansible.posix.firewalld:
     zone: "{{ zone.name | default('public') }}"
     immediate: true
     state: enabled
 
 - name: ansible-routing | zone | create zones
   become: "{{ firewalld_become }}"
-  firewalld:
+  ansible.posix.firewalld:
     zone: "{{ zone.name | default('public') }}"
     permanent: true
     immediate: true
@@ -27,7 +27,7 @@
 
 - name: ansible-routing | zone | affect nics
   become: "{{ firewalld_become }}"
-  firewalld:
+  ansible.posix.firewalld:
     zone: "{{ zone.name | default('public') }}"
     permanent: true
     immediate: true

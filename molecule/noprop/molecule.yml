@@ -1,4 +1,10 @@
 ---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements-collections.yml
+    collections-path: ../community-collections
+
 driver:
   name: vagrant
   provider:
@@ -8,8 +14,14 @@ lint: yamllint . && flake8 && ansible-lint --exclude=meta
 platforms:
   - name: Fedora-Molecule-Routing
     box: fedora/33-cloud-base
-    memory: 1000
-    cpus: 2
+    provider_options:
+      cpus: 2
+      memory: 2048
+    instance_raw_config_args:
+      - "cache.enable :dnf"
+      - "cache.auto_detect = false"
+    provider_raw_config_args:
+      - "customize ['storagectl', :id, '--name', 'IDE', '--hostiocache', 'on']"
 provisioner:
   name: ansible
   env:

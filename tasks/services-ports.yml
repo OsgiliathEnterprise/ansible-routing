@@ -2,7 +2,7 @@
 
 - name: ansible-routing | services-ports | enable services
   become: "{{ firewalld_become }}"
-  firewalld:
+  ansible.posix.firewalld:
     zone: "{{ zone.name | default('public') }}"
     permanent: true
     immediate: true
@@ -13,7 +13,7 @@
     loop_var: enabled_service
 
 - name: ansible-routing | services-ports | open port
-  firewalld:
+  ansible.posix.firewalld:
     port: "{{ enabled_port.port }}/{{ enabled_port.protocol | default('tcp') }}"
     zone: "{{ zone.name | default('public') }}"
     permanent: true
