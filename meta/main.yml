@@ -1,5 +1,5 @@
 galaxy_info:
-  author: cmordant1@gmail.com
+  author: Tcharle
   description: This role let you configure simple redirections using firewalld masquerade
   company: Osgiliath Inc.
 
