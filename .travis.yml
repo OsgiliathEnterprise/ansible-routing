@@ -23,6 +23,7 @@ addons:
       - gcc
       - iproute2
       - sudo
+      - rustc
       - vagrant
 python:
   - "3.8"

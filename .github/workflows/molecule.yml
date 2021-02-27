@@ -25,14 +25,13 @@ jobs:
 
       - name: install lint prerequisite
         run: |
-          sudo apt-get update
-          sudo apt -y install python3-setuptools ansible-lint vagrant
+          sudo apt update
+          sudo apt -y upgrade
+          sudo apt -y install rustc python3-setuptools ansible-lint vagrant python3-setuptools python3 python3-pip
 
       - name: Install molecule
         run: |
-          sudo apt update
-          sudo apt -y install python3-setuptools python3 python3-pip
-          sudo pip3 install wheel
+          sudo pip3 install setuptools-rust wheel
           sudo pip3 install molecule testinfra yamllint ansible-lint flake8 molecule-vagrant
 
       - name: molecule lint
@@ -68,8 +67,9 @@ jobs:
 
       - name: Install molecule
         run: |
-          sudo apt-get -y purge python3-openssl && sudo apt-get -y autoremove
-          sudo apt-get update && sudo apt-get install -y ca-certificates curl gcc iproute2 python3 python3-dev sudo
+          sudo apt -y purge python3-openssl && sudo apt-get -y autoremove
+          sudo apt update
+          sudo apt install -y ca-certificates curl gcc iproute2 python3 python3-dev sudo
           curl -skL https://bootstrap.pypa.io/get-pip.py | sudo -H python3
           sudo pip3 install wheel
           sudo pip3 install netaddr python-vagrant yamllint testinfra flake8

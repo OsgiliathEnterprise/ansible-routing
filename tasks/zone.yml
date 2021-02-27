@@ -40,7 +40,7 @@
 
 - name: ansible-routing | zone | configure firewalld masquerade
   become: "{{ firewalld_become }}"
-  firewalld:
+  ansible.posix.firewalld:
     masquerade: true|bool
     state: enabled
     permanent: true
