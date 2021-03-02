@@ -1,5 +1,6 @@
 galaxy_info:
-  author: Tcharle
+  role_name: ansible_routing
+  author: OsgiliathEnterprise
   description: This role let you configure simple redirections using firewalld masquerade
   company: Osgiliath Inc.
 
