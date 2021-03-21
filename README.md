@@ -42,6 +42,7 @@ firewalld_zones:
         ports_binding:
           - "80:80" # mandatory for letsencrypt
           - "443:443"
+        proxy_pass: https://191.168.2.1:8000/
         gen_certs: yes # lets encrypt will take care of certificates
         
 

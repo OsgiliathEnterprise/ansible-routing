@@ -13,7 +13,8 @@ def test_redirect_rule_set(host):
     with host.sudo():
         command = """firewall-cmd --query-rich-rule=\"rule family=\"ipv4\" \
         forward-port port=\"6752\" \
-        protocol=\"tcp\" to-port=\"22\" to-addr=\"192.168.1.10\"\" | grep -c yes"""
+        protocol=\"tcp\" to-port=\"22\" to-addr=\"192.168.1.10\"\" | \
+        grep -c yes"""
         cmd = host.run(command)
     assert '1' in cmd.stdout
 
@@ -50,7 +51,7 @@ def test_nginx_proxy_port_is_opened(host):
     assert '1' in cmd.stdout
 
 
-def test_nginx_proxy_port_is_opened(host):
+def test_nginx_proxy_port2_is_opened(host):
     with host.sudo():
         command = """docker ps | \
         grep -c '443/tcp'"""
