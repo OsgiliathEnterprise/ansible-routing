@@ -19,7 +19,11 @@
         enabled_ports:
           - port: 6753
             protocol: tcp
-
+    virtual_hosts:
+      - name: idm.osgiliath.test
+        ports_binding:
+          - "80:80" # mandatory for letsencrypt
+          - "443:443"
 
   tasks:
     - name: "Include ansible-routing"

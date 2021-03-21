@@ -2,6 +2,8 @@
 dependency:
   name: galaxy
   options:
+    role-file: requirements.yml
+    roles-path: ../community
     requirements-file: requirements-collections.yml
     collections-path: ../community-collections
 driver:
@@ -24,7 +26,8 @@ platforms:
 provisioner:
   name: ansible
   env:
-    ANSIBLE_ROLES_PATH: ../../..:../../../community
+    ANSIBLE_ROLES_PATH: ${ANSIBLE_ROLES_PATH}:../../../community
+    ANSIBLE_COLLECTIONS_PATH: ${ANSIBLE_COLLECTIONS_PATH}:../community-collections
 verifier:
   name: testinfra
   env:

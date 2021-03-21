@@ -8,10 +8,12 @@ Routing
 
 This role let you configure simple port or port/IP redirections using firewalld masquerade
 
+Also, it configures nginx using docker, the goal being to configure virtualhost in the mid term
+
 Requirements
 ------------
 
-Ansible :-)
+Ansible :-), but also some [collections](./requirements-collections.yml) and some [roles](./requirements.yml)
 
 Role Variables
 --------------
@@ -34,7 +36,15 @@ firewalld_zones:
     enabled_ports:
       - port: 6753
         protocol: tcp 
-   
+    letsencrypt_default_email: toto@mymail # for letencrypt
+    virtual_hosts:
+      - name: idm.osgiliath.test
+        ports_binding:
+          - "80:80" # mandatory for letsencrypt
+          - "443:443"
+        gen_certs: yes # lets encrypt will take care of certificates
+        
+
 ```
 
 License
