@@ -1,0 +1,37 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    lvm_groups:
+      - vgname: non-persistent
+        disks:
+          - /dev/sdb1
+        create: true
+        lvmetanames:
+          - lvname: thinpool
+            size: 40%VG
+            opts: "--wipesignatures y"
+            create: true
+            metadata: non-persistent/thinpoolmeta
+            autoextendtreshold: 80
+            autoextendpercent: 20
+            filesystem: xfs
+            mntp: /var/lib/docker
+            mount: true
+          - lvname: thinpoolmeta
+            size: 10%VG
+            opts: "--wipesignatures y"
+            create: true
+    manage_lvm: true
+  tasks:
+    - name: Display dev
+      command: "ls /dev"
+      changed_when: false
+      register: result
+
+    - debug:
+        var: result
+
+    - name: "Include ansible-volumes"
+      include_role:
+        name: "ansible-volumes"

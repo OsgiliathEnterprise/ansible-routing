@@ -21,6 +21,10 @@
             protocol: tcp
     virtual_hosts:
       - name: idm.osgiliath.test
+        proxy_pass_prefix: "https://"
+        redirect_on_group_machine_ip: "testingserver"
+        # nic_name: "eth0"
+        proxy_pass_suffix: ":443/"
         ports_binding:
           - "80:80" # mandatory for letsencrypt
           - "443:443"

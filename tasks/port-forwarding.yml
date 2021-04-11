@@ -8,6 +8,7 @@
       forward-port port={{ forward_rule.from_port | int }}
       protocol={{ forward_rule.protocol | default('tcp') }}
       to-port={{ forward_rule.to_port | int }}
+      log prefix={{ forward_rule.port_forward_rule }}
     zone: "{{ zone.name | default('public') }}"
     permanent: yes
     immediate: yes
@@ -21,8 +22,9 @@
       rule family={{ forward_rule.family | default('ipv4') }}
       forward-port port={{ forward_rule.from_port | int }}
       protocol={{ forward_rule.protocol | default('tcp') }}
-      to-port={{ forward_rule.to_port | int }}
       to-addr={{ forward_rule.to_address }}
+      to-port={{ forward_rule.to_port | int }}
+      log prefix={{ forward_rule.port_forward_rule }}
     zone: "{{ zone.name | default('public') }}"
     permanent: yes
     immediate: yes

@@ -23,6 +23,10 @@ platforms:
       - "cache.auto_detect = false"
     provider_raw_config_args:
       - "customize ['storagectl', :id, '--name', 'IDE', '--hostiocache', 'on']"
+    groups:
+      - testingserver
+      - reverse_proxy
+
 provisioner:
   name: ansible
   env:

@@ -12,10 +12,7 @@
 
 - name: ansible-routing | configure virtualhost
   include_tasks: nginx-proxy.yml
-  loop: "{{ virtual_hosts }}"
-  loop_control:
-    label: "{{ virtual_host.name }}"
-    loop_var: virtual_host
   when:
-   - not disable_vhost is defined or not disable_vhost
    - virtual_hosts is defined
+   - virtual_hosts | list | length > 0
+   - reverse_proxy_group | default("") | string in group_names
