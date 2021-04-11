@@ -71,5 +71,5 @@
     env:
       DEFAULT_EMAIL: "{{ letsencrypt_default_email }}"
     state: started
-  when: virtual_hosts | selectattr('gen_certs', 'equalto', true) | list | length > 0
+  when: virtual_hosts  | selectattr('gen_certs', 'defined') | selectattr('gen_certs', 'equalto', True) | list | length != 0
   become: true
