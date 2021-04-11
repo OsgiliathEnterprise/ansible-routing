@@ -13,7 +13,8 @@ def test_redirect_rule_set(host):
     with host.sudo():
         command = """firewall-cmd --query-rich-rule=\"rule family=\"ipv4\" \
         forward-port port=\"6752\" \
-        protocol=\"tcp\" to-port=\"22\" to-addr=\"192.168.1.10\"\" | \
+        protocol=\"tcp\" to-port=\"22\" to-addr=\"192.168.1.10\" \
+        log prefix=\"ssh-to-guest\"\" | \
         grep -c yes"""
         cmd = host.run(command)
     assert '1' in cmd.stdout
