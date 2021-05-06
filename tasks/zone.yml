@@ -33,7 +33,7 @@
     immediate: true
     interface: "{{ unaffectednic }}"
     state: enabled
-  loop: "{{ zone.nics | default(hostfacts.ansible_facts.ansible_interfaces) }}"
+  loop: "{{ zone.nics | list | default(hostfacts.ansible_facts.ansible_interfaces) }}"
   loop_control:
     loop_var: unaffectednic
   when: zone.nics is defined
