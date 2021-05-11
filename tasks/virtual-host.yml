@@ -17,6 +17,8 @@
     group: root
     mode: '0644'
   when: not virtual_host.redirect_on_group_machine_ip is defined
+  vars:
+    upstream: "{{ virtual_host.upstream }}"
   become: true
 
 - name: ansible-routing | virtual-host | register potential host IP

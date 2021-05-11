@@ -1,11 +1,11 @@
-{% if virtual_host.upstream is defined %}
-{% if virtual_host.upstream.split(':').0 | ansible.netcommon.ipaddr == False %}
-proxy_cookie_domain {{ virtual_host.upstream }} {{ virtual_host.name }};
-proxy_set_header Host {{ virtual_host.upstream }};
-proxy_set_header Referer {{ virtual_host.proto }}://{{ virtual_host.upstream }}{{ virtual_host.referer_suffix }};
-proxy_cookie_domain {{ virtual_host.upstream }} {{ virtual_host.name }};
+{% if upstream is defined %}
+{% if upstream.split(':').0 | ansible.netcommon.ipaddr == False %}
+proxy_cookie_domain {{ upstream }} {{ virtual_host.name }};
+proxy_set_header Host {{ upstream }};
+proxy_set_header Referer {{ virtual_host.proto }}://{{ upstream }}{{ virtual_host.referer_suffix | default(omit) }};
+proxy_cookie_domain {{ upstream }} {{ virtual_host.name }};
 {% endif %}
-proxy_redirect ~^{{ virtual_host.proto }}://{{ virtual_host.upstream | regex_replace('\.', '\\.') }}([^_]*)$ $scheme://{{ virtual_host.name }}$1;
+proxy_redirect ~^{{ virtual_host.proto }}://{{ upstream | regex_replace('\.', '\\.') }}([^_]*)$ $scheme://{{ virtual_host.name }}$1;
 {% endif %}
 
 proxy_read_timeout 900;
