@@ -43,23 +43,22 @@
     loop_var: virtual_host
 
 - name: ansible-routing | nginx-proxy | start proxy
-  docker_container:
+  community.docker.docker_container:
     name: nginx-proxy
     image: jwilder/nginx-proxy
     restart_policy: "always"
-    published_ports: '{{ virtual_hosts | map(attribute="ports_binding") | flatten }}'
-    volumes:
-      - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "{{ docker_shared_data_nginx_proxy_certs_path }}:/etc/nginx/certs"
-      - "{{ docker_shared_data_nginx_proxy_vhosts_path }}:/etc/nginx/vhost.d"
-      - "{{ docker_shared_data_nginx_proxy_html_path }}:/usr/share/nginx/html"
+    published_ports: #"{{ virtual_hosts | selectattr('ports_binding', 'defined') | map(attribute='ports_binding') | default(['80:80', '443:443']) | flatten | unique }}" # TODO 80 only if gencerts
+      - '80:80'
+      - '443:443'
+    volumes: "{{  [virtual_hosts | selectattr('volumes', 'defined') | map(attribute='volumes') | list | default([]), '/var/run/docker.sock:/tmp/docker.sock:ro', docker_shared_data_nginx_proxy_certs_path + ':/etc/nginx/certs', docker_shared_data_nginx_proxy_vhosts_path + ':/etc/nginx/vhost.d', docker_shared_data_nginx_proxy_html_path + ':/usr/share/nginx/html'] | flatten }}"
     state: started
     env:
       DHPARAM_GENERATION: "{{ virtual_hosts | selectattr('gen_certs', 'defined') | selectattr('gen_certs', 'equalto', True) | list | length != 0 | string }}"
+      DEFAULT_HOST: "{{ virtual_hosts | selectattr('default_host', 'defined') | selectattr('default_host', 'equalto', True) | list | first  | default(omit) | map(attribute='name') | default(omit) }}"
   become: true
 
 - name: ansible-routing | nginx-proxy | letsencrypt-companion
-  docker_container:
+  community.docker.docker_container:
     name: letsencrypt-companion
     image: jrcs/letsencrypt-nginx-proxy-companion
     restart_policy: "always"
@@ -69,7 +68,7 @@
     volumes_from:
       - nginx-proxy
     env:
-      DEFAULT_EMAIL: "{{ letsencrypt_default_email }}"
+      DEFAULT_EMAIL: "{{ letsencrypt_default_email | default(omit) }}"
     state: started
   when: virtual_hosts  | selectattr('gen_certs', 'defined') | selectattr('gen_certs', 'equalto', True) | list | length != 0
   become: true

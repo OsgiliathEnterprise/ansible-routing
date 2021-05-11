@@ -38,11 +38,23 @@ firewalld_zones:
         protocol: tcp 
     letsencrypt_default_email: toto@mymail # for letencrypt
     virtual_hosts:
+      - name: idm.osgiliath.net # Virual host
+        upstream: "idm.internal.osgiliath.net" # upstream server to proxy
+        referer_suffix: "/ipa/ui" # referer header suffix
+        proto: https # upstream proto
+        container: False # proxy container or real VM/bare metal
+        gen_certs: True # use letsencrypt to generate frontend certificate
+        volumes:
+          - "/etc/ipa:/etc/ipa:ro" # additional volumes to mount in proxy
+        additional_nginx_headers:
+          - "proxy_ssl_trusted_certificate /etc/ipa/ca.crt" # Additional nginx headers
+        ports_binding:
+          - "80:80" # mandatory for letsencrypt
+          - "443:443"
       - name: idm.osgiliath.test
         ports_binding:
           - "80:80" # mandatory for letsencrypt
           - "443:443"
-        proxy_pass: https://191.168.2.1:8000/
         gen_certs: yes # lets encrypt will take care of certificates
         
 
