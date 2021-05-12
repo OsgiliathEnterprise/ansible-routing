@@ -1,10 +1,14 @@
 ---
 
 - name: ansible-routing | nginx-proxy | install docker
-  import_role:
+  ansible.builtin.import_role:
     name: tcharl.ansible_containerization
 
 - name: ansible-routing | nginx-proxy | create nginx directories
+  ansible.builtin.file:
+    state: directory
+    dest: '{{ item }}'
+    mode: "0753"
   become: true
   with_items:
     - "{{ docker_shared_data_nginx_proxy_path }}"
@@ -12,13 +16,9 @@
     - "{{ docker_shared_data_nginx_proxy_vhosts_path }}"
     - "{{ docker_shared_data_nginx_proxy_html_path }}"
     - "{{ docker_shared_data_letsencrypt_path }}"
-  file:
-    state: directory
-    dest: '{{ item }}'
-    mode: "0753"
 
 - name: ansible-routing | nginx-proxy | create default index.html
-  copy:
+  ansible.builtin.copy:
     src: index.html
     dest: "{{ docker_shared_data_nginx_proxy_html_path }}"
     owner: root
@@ -27,7 +27,7 @@
   become: true
 
 - name: ansible-routing | nginx-proxy | default domain configuration
-  copy:
+  ansible.builtin.copy:
     src: vhost
     dest: "{{ docker_shared_data_nginx_proxy_vhosts_path }}/default"
     owner: root
@@ -36,7 +36,7 @@
   become: true
 
 - name: ansible-routing | nginx-proxy | configure virtualhost
-  include_tasks: virtual-host.yml
+  ansible.builtin.include_tasks: virtual-host.yml
   loop: "{{ virtual_hosts }}"
   loop_control:
     label: "{{ virtual_host.name }}"

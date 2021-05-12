@@ -1,17 +1,17 @@
 ---
 # tasks file for ansible-routing
 - name: ansible-routing | install firewalld
-  include_tasks: install.yml
+  ansible.builtin.include_tasks: install.yml
 
 - name: ansible-routing | configure zones
-  include_tasks: zone.yml
+  ansible.builtin.include_tasks: zone.yml
   loop: "{{ firewalld_zones }}"
   loop_control:
     label: "{{ zone.name }}"
     loop_var: zone
 
 - name: ansible-routing | configure virtualhost
-  include_tasks: nginx-proxy.yml
+  ansible.builtin.include_tasks: nginx-proxy.yml
   when:
    - virtual_hosts is defined
    - virtual_hosts | list | length > 0
