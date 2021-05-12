@@ -90,3 +90,10 @@ def test_nginx_proxy_vhost_files_contains_target(host):
         | grep -c 'idm.internal.osgiliath.net'"""
         cmd = host.run(command)
     assert '4' in cmd.stdout
+
+
+def test_docker_interface_is_configured_in_firewalld(host):
+    command = """sudo firewall-cmd --list-all --zone=docker | \
+    grep -c 'docker0'"""
+    cmd = host.run(command)
+    assert '1' in cmd.stdout

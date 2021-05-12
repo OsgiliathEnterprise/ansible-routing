@@ -9,7 +9,7 @@
       protocol={{ forward_rule.protocol | default('tcp') }}
       to-port={{ forward_rule.to_port | int }}
       log prefix={{ forward_rule.port_forward_rule }}
-    zone: "{{ zone.name | default('public') }}"
+    zone: "{{ zone.name | default(firewalld_nics_zone) }}"
     permanent: yes
     immediate: yes
     state: enabled
@@ -25,7 +25,7 @@
       to-addr={{ forward_rule.to_address }}
       to-port={{ forward_rule.to_port | int }}
       log prefix={{ forward_rule.port_forward_rule }}
-    zone: "{{ zone.name | default('public') }}"
+    zone: "{{ zone.name | default(firewalld_nics_zone) }}"
     permanent: yes
     immediate: yes
     state: enabled

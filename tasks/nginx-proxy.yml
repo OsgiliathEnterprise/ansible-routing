@@ -4,6 +4,14 @@
   ansible.builtin.import_role:
     name: tcharl.ansible_containerization
 
+- name: containerization | add docker0 interface to public firewall zone
+  ansible.builtin.include_tasks: zone.yml
+  vars:
+    zone:
+      - name: "{{ firewalld_nics_zone }}"
+        nics:
+          - "{{ ansible_containerization_docker_network_interface }}"
+
 - name: ansible-routing | nginx-proxy | create nginx directories
   ansible.builtin.file:
     state: directory
