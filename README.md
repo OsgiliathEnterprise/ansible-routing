@@ -25,16 +25,25 @@ firewalld_zones:
       - eth0 # optional
     masquerade: true
     port_forward_rules:
-      - port_forward_rule: ssh-to-guest
+      - port_forward_rule: ssh-to-guest-ip
         family: ipv4 # optional
         from_port: 6752
         protocol: tcp # optional
         to_address: 192.168.1.10
         to_port: 22
+     - port_forward_rule: ssh-to-ansible-host-forward
+        family: ipv4 # optional
+        from_port: 6754
+        protocol: tcp # optional
+        to_host: myhost.osgiliath.test
+        to_port: 22
     enabled_services:
       - service: ssh
     enabled_ports:
       - port: 6753
+        protocol: tcp 
+    enabled_port_ranges:
+      - port_range: 6753-7000
         protocol: tcp 
     letsencrypt_default_email: toto@mymail # for letencrypt
     virtual_hosts:
@@ -56,8 +65,6 @@ firewalld_zones:
           - "80:80" # mandatory for letsencrypt
           - "443:443"
         gen_certs: yes # lets encrypt will take care of certificates
-        
-
 ```
 
 License

@@ -23,3 +23,15 @@
   loop: "{{ zone.enabled_ports | default([]) }}"
   loop_control:
     loop_var: enabled_port
+
+- name: ansible-routing | services-ports | open port
+  ansible.posix.firewalld:
+    port: "{{ enabled_port_range.port_range }}/{{ enabled_port.protocol | default('tcp') }}"
+    zone: "{{ zone.name | default(firewalld_nics_zone) }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  become: "{{ firewalld_become }}"
+  loop: "{{ zone.enabled_port_ranges | default([]) }}"
+  loop_control:
+    loop_var: enabled_port_range

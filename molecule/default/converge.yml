@@ -2,6 +2,7 @@
 - name: Converge
   hosts: all
   vars:
+    preferred_nic: "lo"
     firewalld_zones:
       - name: public
 #        nics:
@@ -13,6 +14,12 @@
             from_port: 6752
             protocol: tcp
             to_address: 192.168.1.10
+            to_port: 22
+          - port_forward_rule: host-forwarding
+            family: ipv4
+            from_port: 6755
+            protocol: tcp
+            to_host: "proxy.osgiliath.test"
             to_port: 22
         enabled_services:
           - service: ssh
