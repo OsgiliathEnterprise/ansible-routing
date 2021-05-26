@@ -6,13 +6,11 @@ dependency:
     roles-path: ../community
     requirements-file: requirements-collections.yml
     collections-path: ../community-collections
-
 driver:
   name: vagrant
   provider:
     name: virtualbox
-
-lint: yamllint . && flake8 && ansible-lint --exclude=meta
+lint: yamllint . && flake8 && ansible-lint --exclude=meta,.cache
 platforms:
   - name: Fedora-Molecule-Routing
     box: fedora/33-cloud-base

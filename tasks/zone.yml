@@ -47,13 +47,22 @@
   notify: ansible-routing | handler | reload-firewall
   become: "{{ firewalld_become }}"
 
-- name: ansible-routing | zone | configure forwarding
-  ansible.builtin.include: port-forwarding.yml
+- name: ansible-routing | zone | debug zone
+  ansible.builtin.debug:
+    var: zone
+
+- name: ansible-routing | zone | debug port forward loop
+  ansible.builtin.debug:
+    var: forward_rule.port_forward_rule
   loop: "{{ zone.port_forward_rules | default([]) }}"
   loop_control:
-    label: "{{ forward_rule.port_forward_rule }}"
     loop_var: forward_rule
-  notify: ansible-routing | handler | reload-firewall
+
+- name: ansible-routing | zone | configure forwarding
+  ansible.builtin.include_tasks: port-forwarding.yml
+  loop: "{{ zone.port_forward_rules | default([]) }}"
+  loop_control:
+    loop_var: forward_rule
 
 - name: ansible-routing | zone | configure ports and services
-  ansible.builtin.include: services-ports.yml
+  ansible.builtin.include_tasks: services-ports.yml

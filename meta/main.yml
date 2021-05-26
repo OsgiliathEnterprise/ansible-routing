@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: ansible_routing
   author: OsgiliathEnterprise
-  description: This role let you configure simple redirections using firewalld masquerade
+  description: This role let you configure simple redirections using firewalld masquerade or docker nginx-proxy for virtualhosts
   company: Osgiliath Inc.
 
   # If the issue tracker for your role is not on github, uncomment the

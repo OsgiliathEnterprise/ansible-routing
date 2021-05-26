@@ -16,3 +16,4 @@ letsencrypt_default_email: toto@dummymail.com
 firewalld_nics_zone: public
 
 reverse_proxy_group: "reverse_proxy"
+standalone_role: True

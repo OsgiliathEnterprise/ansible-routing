@@ -3,6 +3,10 @@
 - name: ansible-routing | install firewalld
   ansible.builtin.include_tasks: install.yml
 
+- name: ansible-routing | debug zones
+  debug:
+    var: firewalld_zones
+
 - name: ansible-routing | configure zones
   ansible.builtin.include_tasks: zone.yml
   loop: "{{ firewalld_zones }}"
