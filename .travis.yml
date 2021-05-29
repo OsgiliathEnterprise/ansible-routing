@@ -36,10 +36,12 @@ install:
   - pip install ansible ansible-lint
   - pip install molecule molecule-vagrant==0.6.1 python-vagrant jmespath netaddr
   - sudo chmod o+rwx /var/run/libvirt/libvirt-sock
-
+jobs:
+  include:
+    - env: TEST_SCENARIO=kvm
+    - env: TEST_SCENARIO=nopropkvm
 script:
-  - molecule test --scenario-name kvm
-  - molecule test --scenario-name nopropkvm
+  - travis_wait 50 molecule test --scenario-name $TEST_SCENARIO
 branches:
   only:
     - master
