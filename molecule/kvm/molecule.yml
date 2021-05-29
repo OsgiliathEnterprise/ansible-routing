@@ -12,8 +12,8 @@ driver:
     name: libvirt
 lint: yamllint . && flake8 && ansible-lint --exclude=meta,.cache
 platforms:
-  - name: Fedora-Molecule-Routing
-    box: fedora/33-cloud-base
+  - name: proxy.osgiliath.test
+    box: tcharl/fedora-33-cgroupv1
     provider_options:
       driver: '"kvm"'
       cpus: 2

@@ -14,7 +14,7 @@ driver:
 lint: yamllint . && flake8 && ansible-lint --exclude=meta,.cache
 platforms:
   - name: proxy.osgiliath.test
-    box: fedora/33-cloud-base
+    box: tcharl/fedora-33-cgroupv1
     provider_options:
       cpus: 2
       memory: 2048
