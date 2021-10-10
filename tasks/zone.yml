@@ -1,10 +1,10 @@
 ---
 
-- name: ansible-nameserver | bind_config | gather all ips of the bind client group
+- name: ansible-routing | zone | gather host facts
   ansible.builtin.setup:
   register: hostfacts
 
-- name: ansible-virtualization-guest | network | Debug fullnetinfo
+- name: ansible-routing | zone | debug host facts
   ansible.builtin.debug:
     var: hostfacts
     verbosity: 3

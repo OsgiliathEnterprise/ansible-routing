@@ -4,6 +4,8 @@
   ansible.builtin.import_role:
     name: tcharl.ansible_containerization
   when: standalone_role
+  tags:
+    - standalone
 
 - name: containerization | add docker0 interface to public firewall zone
   ansible.builtin.include_tasks: zone.yml
