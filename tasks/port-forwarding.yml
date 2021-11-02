@@ -22,7 +22,7 @@
   setup:
   register: targethostfacts
   delegate_facts: true
-  delegate_to: "{{ forward_rule.to_host }}"
+  delegate_to: "{{ forward_rule.to_ansible_host | default(forward_rule.to_host) }}"
   when:
    - forward_rule.to_host is defined
 
