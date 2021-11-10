@@ -6,8 +6,5 @@
       - name: public
         nics:
           - eth0
-
-  tasks:
-    - name: "Include ansible-routing"
-      include_role:
-        name: tcharl.ansible_routing
+  roles:
+    - role: tcharl.ansible_routing

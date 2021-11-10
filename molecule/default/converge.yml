@@ -45,8 +45,5 @@
           - "proxy_ssl_trusted_certificate /etc/ipa/ca.crt"
         ports_binding:
           - "80:80"
-
-  tasks:
-    - name: "Include ansible-routing"
-      include_role:
-        name: tcharl.ansible_routing
+  roles:
+    - role: tcharl.ansible_routing
