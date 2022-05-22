@@ -1,1 +1,10 @@
-../noprop/converge.yml
+---
+- name: Converge
+  hosts: all
+  vars:
+    firewalld_zones:
+      - name: public
+        nics:
+          - eth0
+  roles:
+    - role: ansible-routing

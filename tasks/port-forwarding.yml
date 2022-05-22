@@ -19,7 +19,7 @@
    - not forward_rule.to_host is defined
 
 - name: ansible-routing | forwarding | retreive target fact
-  setup:
+  ansible.builtin.setup:
   register: targethostfacts
   delegate_facts: true
   delegate_to: "{{ forward_rule.to_ansible_host | default(forward_rule.to_host) }}"
@@ -27,7 +27,7 @@
    - forward_rule.to_host is defined
 
 - name: ansible-routing | forwarding | debug target fact
-  debug:
+  ansible.builtin.debug:
     msg: "{{ targethostfacts }}"
 
 - name: ansible-routing | forwarding | compute ip if preferred_nic is not set
@@ -38,7 +38,7 @@
   register: targethostfacts_ip
 
 - name: ansible-routing | forwarding | compute redirect ip
-  debug:
+  ansible.builtin.debug:
     msg: "{{ forward_rule.to_address if forward_rule.to_address is defined else targethostfacts_ip.msg }}"
   register: forwardrule_address
   when: forward_rule.to_host is defined or forward_rule.to_address is defined
@@ -50,7 +50,7 @@
       rule family={{ forward_rule.family | default('ipv4') }}
       forward-port port={{ forward_rule.from_port | int }}
       protocol={{ forward_rule.protocol | default('tcp') }}
-      to-addr={{ forwardrule_address.msg | ansible.netcommon.ipaddr }}
+      to-addr={{ forwardrule_address.msg | ansible.utils.ipaddr }}
       to-port={{ forward_rule.to_port | int }}
       log prefix={{ forward_rule.port_forward_rule }}
     zone: "{{ zone.name | default(firewalld_nics_zone) }}"

@@ -45,7 +45,7 @@
 - name: ansible-routing | virtual-host | create random seed for port
   ansible.builtin.debug:
     msg: "{{ 65534 | random(1025) }}"
-  register: proxyContainerPort
+  register: proxy_container_port
 
 - name: ansible-routing | virtual-host | create socat container if external
   community.docker.docker_container:
@@ -53,8 +53,9 @@
     image: alpine/socat
     restart_policy: "always"
     published_ports:
-      - '{{ proxyContainerPort.msg }}:{{ proxyContainerPort.msg }}'
-    command: "-d -d tcp-listen:{{ proxyContainerPort.msg }},fork,reuseaddr tcp-connect:{{ (virtual_host.upstream.split(':').0) if virtual_host.upstream is defined and (virtual_host.upstream.split(':') | length > 0) else group_machines_fact.msg }}:{{ (virtual_host.upstream.split(':').1) if virtual_host.upstream is defined and (virtual_host.upstream.split(':') | length > 1) else '443' if virtual_host.proto is defined and virtual_host.proto == 'https' else '80' }}"
+      - '{{ proxy_container_port.msg }}:{{ proxy_container_port.msg }}'
+    command: "-d -d tcp-listen:{{ proxy_container_port.msg }},fork,reuseaddr tcp-connect:{{ (virtual_host.upstream.split(':').0) if virtual_host.upstream is defined and (virtual_host.upstream.split(':') | length > 0) else group_machines_fact.msg }}:{{ (virtual_host.upstream.split(':').1) if virtual_host.upstream is defined and (virtual_host.upstream.split(':') | length > 1) else '443' if virtual_host.proto is defined and virtual_host.proto == 'https' else '80' }}"
+    volumes: "{{ virtual_host.socat_mounts | default(omit) }}"
     env:
       VIRTUAL_HOST: "{{ virtual_host.name }}"
       LETSENCRYPT_HOST: "{{ virtual_host.name if virtual_host.gen_certs is defined and virtual_host.gen_certs == True else omit }}"

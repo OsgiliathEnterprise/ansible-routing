@@ -1,6 +1,5 @@
 {% if upstream is defined %}
-{% if upstream.split(':').0 | ansible.netcommon.ipaddr == False %}
-proxy_cookie_domain {{ upstream }} {{ virtual_host.name }};
+{% if upstream.split(':').0 | ansible.utils.ipaddr == False %}
 proxy_set_header Host {{ upstream }};
 proxy_set_header Referer {{ virtual_host.proto | default('http') }}://{{ upstream }}{{ virtual_host.referer_suffix | default(omit) }};
 proxy_cookie_domain {{ upstream }} {{ virtual_host.name }};

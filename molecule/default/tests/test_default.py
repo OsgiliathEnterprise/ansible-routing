@@ -100,7 +100,7 @@ def test_nginx_proxy_vhost_files_contains_target(host):
         command = """cat /usr/share/dockerdata/nginx/vhost.d/externalvm.osgiliath.net_location \
         | grep -c 'idm.internal.osgiliath.net'"""
         cmd = host.run(command)
-    assert '4' in cmd.stdout
+    assert '3' in cmd.stdout
 
 
 def test_docker_interface_is_configured_in_firewalld(host):
