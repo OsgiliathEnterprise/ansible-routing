@@ -18,7 +18,7 @@
    - not forward_rule.to_address is defined
    - not forward_rule.to_host is defined
 
-- name: ansible-routing | forwarding | retreive target fact
+- name: ansible-routing | forwarding | retrieve target fact
   ansible.builtin.setup:
   register: targethostfacts
   delegate_facts: true
