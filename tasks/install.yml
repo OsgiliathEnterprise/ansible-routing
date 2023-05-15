@@ -1,12 +1,12 @@
 ---
 
-- name: install firewalld
+- name: Install | install firewalld
   become: "{{ firewalld_become }}"
   ansible.builtin.package:
     name: firewalld
     state: present
 
-- name: enable and start firewalld
+- name: Install | enable and start firewalld
   become: "{{ firewalld_become }}"
   ansible.builtin.service:
     name: firewalld

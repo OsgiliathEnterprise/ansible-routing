@@ -1,13 +1,13 @@
 ---
 
-- name: ansible-routing | nginx-proxy | install docker
+- name: Nginx-proxy | install docker
   ansible.builtin.import_role:
     name: tcharl.ansible_containerization
   when: standalone_role
   tags:
     - standalone
 
-- name: containerization | add {{ firewalld_nics_zone }} interface to public firewall zone
+- name: Nginx-proxy | add {{ firewalld_nics_zone }} interface to public firewall zone
   ansible.builtin.include_tasks: zone.yml
   vars:
     zone:
@@ -15,7 +15,7 @@
         nics:
           - "{{ ansible_containerization_docker_network_interface }}"
 
-- name: ansible-routing | nginx-proxy | create nginx directories
+- name: Nginx-proxy | create nginx directories
   ansible.builtin.file:
     state: directory
     dest: '{{ item }}'
@@ -28,7 +28,7 @@
     - "{{ docker_shared_data_nginx_proxy_html_path }}"
     - "{{ docker_shared_data_letsencrypt_path }}"
 
-- name: ansible-routing | nginx-proxy | create default index.html
+- name: Nginx-proxy | create default index.html
   ansible.builtin.copy:
     src: index.html
     dest: "{{ docker_shared_data_nginx_proxy_html_path }}"
@@ -37,7 +37,7 @@
     mode: 0644
   become: true
 
-- name: ansible-routing | nginx-proxy | default domain configuration
+- name: Nginx-proxy | default domain configuration
   ansible.builtin.copy:
     src: vhost
     dest: "{{ docker_shared_data_nginx_proxy_vhosts_path }}/default"
@@ -46,14 +46,14 @@
     mode: '0644'
   become: true
 
-- name: ansible-routing | nginx-proxy | configure virtualhost
+- name: Nginx-proxy | configure virtualhost
   ansible.builtin.include_tasks: virtual-host.yml
   loop: "{{ virtual_hosts }}"
   loop_control:
     label: "{{ virtual_host.name }}"
     loop_var: virtual_host
 
-- name: ansible-routing | nginx-proxy | start proxy
+- name: Nginx-proxy | start proxy
   community.docker.docker_container:
     name: nginx-proxy
     image: jwilder/nginx-proxy
@@ -68,7 +68,7 @@
       DEFAULT_HOST: "{{ virtual_hosts | selectattr('default_host', 'defined') | selectattr('default_host', 'equalto', True) | list | first | default(omit) | map(attribute='name') | default(omit) }}"
   become: true
 
-- name: ansible-routing | nginx-proxy | letsencrypt-companion
+- name: Nginx-proxy | letsencrypt-companion
   community.docker.docker_container:
     name: letsencrypt-companion
     image: jrcs/letsencrypt-nginx-proxy-companion

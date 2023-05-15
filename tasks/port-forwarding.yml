@@ -1,6 +1,6 @@
 ---
 
-- name: ansible-routing | forwarding | Redirect port
+- name: Port-forwarding | Redirect port
   become: "{{ firewalld_become }}"
   ansible.posix.firewalld:
     rich_rule: >
@@ -18,7 +18,7 @@
    - not forward_rule.to_address is defined
    - not forward_rule.to_host is defined
 
-- name: ansible-routing | forwarding | retrieve target fact
+- name: Port-forwarding | retrieve target fact
   ansible.builtin.setup:
   register: targethostfacts
   delegate_facts: true
@@ -26,24 +26,24 @@
   when:
    - forward_rule.to_host is defined
 
-- name: ansible-routing | forwarding | debug target fact
+- name: Port-forwarding | debug target fact
   ansible.builtin.debug:
     msg: "{{ targethostfacts }}"
 
-- name: ansible-routing | forwarding | compute ip if preferred_nic is not set
+- name: Port-forwarding | compute ip if preferred_nic is not set
   ansible.builtin.debug:
     msg: "{{ targethostfacts.ansible_facts['ansible_' + preferred_nic].ipv4.address if preferred_nic is defined else targethostfacts.ansible_facts.ansible_default_ipv4.address | default(targethostfacts.ansible_facts.ansible_all_ipv4_addresses[0]) }}"
   when:
     - forward_rule.to_host is defined
   register: targethostfacts_ip
 
-- name: ansible-routing | forwarding | compute redirect ip
+- name: Port-forwarding | compute redirect ip
   ansible.builtin.debug:
     msg: "{{ forward_rule.to_address if forward_rule.to_address is defined else targethostfacts_ip.msg }}"
   register: forwardrule_address
   when: forward_rule.to_host is defined or forward_rule.to_address is defined
 
-- name: ansible-routing | forwarding | Redirect ip
+- name: Port-forwarding | Redirect ip
   become: "{{ firewalld_become }}"
   ansible.posix.firewalld:
     rich_rule: >

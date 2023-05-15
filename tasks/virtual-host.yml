@@ -1,6 +1,6 @@
 ---
 
-- name: ansible-routing | virtual-host | copy virtualHost configuration
+- name: Virtual-host | copy virtualHost configuration
   ansible.builtin.template:
     src: vhost.j2
     dest: "{{ docker_shared_data_nginx_proxy_vhosts_path }}/{{ virtual_host.name }}"
@@ -9,7 +9,7 @@
     mode: '0644'
   become: true
 
-- name: ansible-routing | virtual-host | domain location configuration
+- name: Virtual-host | domain location configuration
   ansible.builtin.template:
     src: vhost_location.j2
     dest: "{{ docker_shared_data_nginx_proxy_vhosts_path }}/{{ virtual_host.name }}_location"
@@ -21,7 +21,7 @@
     upstream: "{{ virtual_host.upstream }}"
   become: true
 
-- name: ansible-routing | virtual-host | register potential host IP
+- name: Virtual-host | register potential host IP
   ansible.builtin.debug:
     msg: "{{ ansible_facts[virtual_host.nic_name | default('')]['ipv4']['address'] | default(ansible_facts['default_ipv4']['address']) }}"
   delegate_to: "{{ virtual_host.redirect_on_group_machine_ip[0] }}"
@@ -30,7 +30,7 @@
   when:
    - virtual_host.redirect_on_group_machine_ip is defined
 
-- name: ansible-routing | virtual-host | domain location configuration with redirection
+- name: Virtual-host | domain location configuration with redirection
   ansible.builtin.template:
     src: vhost_location.j2
     dest: "{{ docker_shared_data_nginx_proxy_vhosts_path }}/{{ virtual_host.name }}_location"
@@ -42,12 +42,12 @@
   when: virtual_host.redirect_on_group_machine_ip is defined
   become: true
 
-- name: ansible-routing | virtual-host | create random seed for port
+- name: Virtual-host | create random seed for port
   ansible.builtin.debug:
     msg: "{{ 65534 | random(1025) }}"
   register: proxy_container_port
 
-- name: ansible-routing | virtual-host | create socat container if external
+- name: Virtual-host | create socat container if external
   community.docker.docker_container:
     name: "{{ virtual_host.name }}"
     image: alpine/socat
