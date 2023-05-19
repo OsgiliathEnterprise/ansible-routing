@@ -12,14 +12,14 @@
 
 - name: Zone | create zones - without permanent
   ansible.posix.firewalld:
-    zone: "{{ zone.name | default(firewalld_nics_zone) }}"
+    zone: "{{ zone.name | default(firewalld_default_zone) }}"
     immediate: true
     state: enabled
   become: "{{ firewalld_become }}"
 
 - name: Zone | create zones
   ansible.posix.firewalld:
-    zone: "{{ zone.name | default(firewalld_nics_zone) }}"
+    zone: "{{ zone.name | default(firewalld_default_zone) }}"
     permanent: true
     immediate: true
     state: enabled
@@ -27,7 +27,7 @@
 
 - name: Zone | affect nics
   ansible.posix.firewalld:
-    zone: "{{ zone.name | default(firewalld_nics_zone) }}"
+    zone: "{{ zone.name | default(firewalld_default_zone) }}"
     permanent: true
     immediate: true
     interface: "{{ unaffectednic }}"
@@ -43,7 +43,7 @@
     masquerade: True
     state: enabled
     permanent: True
-    zone: "{{ zone.name | default(firewalld_nics_zone) }}"
+    zone: "{{ zone.name | default(firewalld_default_zone) }}"
   notify: ansible-routing | handler | reload-firewall
   become: "{{ firewalld_become }}"
 

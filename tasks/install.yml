@@ -12,3 +12,11 @@
     name: firewalld
     state: started
     enabled: true
+
+- name: Install | install package needed to gather ip and hostname
+  ansible.builtin.package:
+    name: "{{ item }}"
+  with_items:
+    - iproute
+    - hostname
+  become: True
