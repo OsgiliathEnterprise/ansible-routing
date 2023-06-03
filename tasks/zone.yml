@@ -50,6 +50,7 @@
 - name: Zone | debug zone
   ansible.builtin.debug:
     var: zone
+    verbosity: 3
 
 - name: Zone | debug port forward loop
   ansible.builtin.debug:

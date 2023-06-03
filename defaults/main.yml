@@ -1,5 +1,5 @@
 ---
 
 firewalld_become: true
-firewalld_default_zone: public
 standalone_role: True
+firewalld_default_zone: public
