@@ -15,3 +15,4 @@
 - name: Facts | Debug network facts
   ansible.builtin.debug:
     var: current_network_facts
+    verbosity: 2

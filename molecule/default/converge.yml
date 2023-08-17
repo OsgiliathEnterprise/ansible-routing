@@ -23,6 +23,8 @@
             to_port: 22
         enabled_services:
           - service: ssh
+        enabled_sources:
+          - source: "192.168.1.10/16"
         enabled_ports:
           - port: 6753
             protocol: tcp
