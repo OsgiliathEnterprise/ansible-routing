@@ -10,6 +10,13 @@
     verbosity: 3
   when: not zone.nics is defined
 
+- name: Zone | create zones - activate zone
+  ansible.posix.firewalld:
+    zone: "{{ zone.name | default(firewalld_default_zone) }}"
+    state: present
+    permanent: true
+  become: "{{ firewalld_become }}"
+
 - name: Zone | create zones - without permanent
   ansible.posix.firewalld:
     zone: "{{ zone.name | default(firewalld_default_zone) }}"
